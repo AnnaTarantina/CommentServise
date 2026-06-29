@@ -1,5 +1,6 @@
 package models
 
+// Comment представляет модель комментария
 type Comment struct {
 	ID         string `json:"id"`
 	NewsID     string `json:"news_id"`

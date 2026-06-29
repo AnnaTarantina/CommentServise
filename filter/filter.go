@@ -3,7 +3,7 @@ package filter
 import (
 	"strings"
 
-	"../models"
+	"github.com/AnnaTarantina/CommentServise/models"
 )
 
 var forbiddenWords = map[string]bool{
@@ -12,21 +12,18 @@ var forbiddenWords = map[string]bool{
 	"zxvbnm": true,
 }
 
+// CheckComment проверяет текст комментария на наличие запрещённых слов
 func CheckComment(text string) models.FilterResult {
 	result := models.FilterResult{IsApproved: true}
 
+	// Приводим текст к нижнему регистру ОДИН раз перед циклом
+	textLower := strings.ToLower(text)
+
 	for word := range forbiddenWords {
-		if containsIgnoreCase(text, word) {
+		if strings.Contains(textLower, strings.ToLower(word)) {
 			result.IsApproved = false
 			break
 		}
 	}
-
 	return result
-}
-
-func containsIgnoreCase(str, substr string) bool {
-	strLower := strings.ToLower(str)
-	substrLower := strings.ToLower(substr)
-	return strings.Contains(strLower, substrLower)
 }
